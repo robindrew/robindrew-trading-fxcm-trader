@@ -1,11 +1,14 @@
 package com.robindrew.trading.fxcm.trader.fxcm;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.robindrew.common.mbean.IMBeanRegistry;
 import com.robindrew.common.mbean.annotated.AnnotatedMBeanRegistry;
 import com.robindrew.common.properties.map.type.EnumProperty;
+import com.robindrew.common.properties.map.type.FileProperty;
 import com.robindrew.common.properties.map.type.IProperty;
 import com.robindrew.common.properties.map.type.StringProperty;
 import com.robindrew.common.service.component.AbstractIdleComponent;
@@ -13,6 +16,7 @@ import com.robindrew.trading.fxcm.platform.FxcmCredentials;
 import com.robindrew.trading.fxcm.platform.FxcmEnvironment;
 import com.robindrew.trading.fxcm.platform.FxcmSession;
 import com.robindrew.trading.fxcm.trader.fxcm.session.SessionManager;
+import com.robindrew.trading.log.TransactionLog;
 
 public class FxcmComponent extends AbstractIdleComponent {
 
@@ -21,6 +25,7 @@ public class FxcmComponent extends AbstractIdleComponent {
 	private static final IProperty<String> propertyUsername = new StringProperty("fxcm.username");
 	private static final IProperty<String> propertyPassword = new StringProperty("fxcm.password");
 	private static final IProperty<FxcmEnvironment> propertyEnvironment = new EnumProperty<>(FxcmEnvironment.class, "fxcm.environment");
+	private static final IProperty<File> propertyTransactionLogDir = new FileProperty("transaction.log.dir");
 
 	@Override
 	protected void startupComponent() throws Exception {
@@ -29,11 +34,23 @@ public class FxcmComponent extends AbstractIdleComponent {
 		String username = propertyUsername.get();
 		String password = propertyPassword.get();
 		FxcmEnvironment environment = propertyEnvironment.get();
+		File transactionLogDir = propertyTransactionLogDir.get();
 
 		FxcmCredentials credentials = new FxcmCredentials(username, password);
+
+		log.info("Creating Session");
+		log.info("Environment: {}", environment);
+		log.info("User: {}", credentials.getUsername());
 		FxcmSession session = new FxcmSession(credentials, environment);
 
-		registry.register(new SessionManager(session));
+		log.info("Creating Session Manager");
+		SessionManager sessionManager = new SessionManager(session);
+		registry.register(sessionManager);
+
+		log.info("Creating Transaction Log");
+		TransactionLog transactionLog = new TransactionLog(transactionLogDir);
+		transactionLog.start();
+
 	}
 
 	@Override
