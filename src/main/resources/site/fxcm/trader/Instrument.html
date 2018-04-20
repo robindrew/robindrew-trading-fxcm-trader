@@ -1,0 +1,226 @@
+<html>
+
+
+<head>
+<title>${title}</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+<style>
+body { padding-top: 10px; }
+.top-spacer {padding-top: 10px; }]
+</style>
+
+
+</head>
+
+
+<body>
+
+<!-- START CONTAINER -->
+<div class="container">
+
+
+<!-- NAV BAR -->
+<nav class="navbar navbar-default">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="/">${serviceName} #${serviceInstance}</a>
+</div>
+<ul class="nav navbar-nav">
+<li><a href="/Accounts"><span class="glyphicon glyphicon-piggy-bank"></span> Accounts</a></li>
+<li><a href="/Positions"><span class="glyphicon glyphicon-list-alt"></span> Positions</a></li>
+<li class="active"><a href="/Instruments"><span class="glyphicon glyphicon-globe"></span> Instruments</a></li>
+<li><a href="/History"><span class="glyphicon glyphicon-signal"></span> History</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="#">${environment}</a></li>
+</ul>
+</div><!-- /.container-fluid -->
+</nav>
+<!-- NAV BAR -->
+
+
+<!-- START ROW -->
+<div class="row">
+
+<div class="col-md-12">
+<ol class="breadcrumb">
+<li><a href="/Instruments">Instruments</a></li>
+<li class="active">${epic}</li>
+</ol>
+</div>
+
+
+<div class="col-md-12">
+<h3><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Instrument</h3>
+</div>
+<div class="col-md-6">
+<div class="panel panel-default">
+<table class="table small table-hover table-striped table-bordered">
+<tr><th>Type</th><td>${markets.instrument.type}</td></tr>
+<tr><th>Name</th><td>${markets.instrument.name}</td></tr>
+<tr><th>Epic</th><td>${markets.instrument.epic}</td></tr>
+<tr><th>Min Deal Size</th><td>${markets.dealingRules.minDealSize.value} ${markets.dealingRules.minDealSize.unit}</td></tr>
+<tr><th>Status</th>
+<td>
+#if($markets.snapshot.marketStatus == "CLOSED")
+<span class="label label-danger">${markets.snapshot.marketStatus}</span>
+#end
+#if($markets.snapshot.marketStatus == "SUSPENDED")
+<span class="label label-danger">${markets.snapshot.marketStatus}</span>
+#end
+#if($markets.snapshot.marketStatus == "OFFLINE")
+<span class="label label-danger">${markets.snapshot.marketStatus}</span>
+#end
+#if($markets.snapshot.marketStatus == "EDITS_ONLY")
+<span class="label label-warning">${markets.snapshot.marketStatus}</span>
+#end
+#if($markets.snapshot.marketStatus == "ON_AUCTION")
+<span class="label label-warning">${markets.snapshot.marketStatus}</span>
+#end
+#if($markets.snapshot.marketStatus == "ON_AUCTION_NO_EDITS")
+<span class="label label-warning">${markets.snapshot.marketStatus}</span>
+#end
+#if($markets.snapshot.marketStatus == "TRADEABLE")
+<span class="label label-success">${markets.snapshot.marketStatus}</span>
+#end
+</td>
+<tr><th>Bid</th><td>${markets.snapshot.bid}</td></tr>
+<tr><th>Offer</th><td>${markets.snapshot.offer}</td></tr>
+<tr><th>Spread</th><td>${markets.snapshot.spread}</td></tr>
+</tr>
+<tr><th>Attributes</th>
+<td>
+#if($markets.instrument.forceOpenAllowed) <span class="label label-default">FORCE OPEN</span> #end
+#if($markets.instrument.stopsLimitsAllowed) <span class="label label-default">STOPS LIMITS</span> #end
+#if($markets.instrument.controlledRiskAllowed) <span class="label label-default">CONTROLLED RISK</span> #end
+#if($markets.instrument.streamingPricesAvailable) <span class="label label-default">STREAMING PRICES</span> #end
+</td></tr>
+<tr>
+<th>Actions</th>
+<td>
+<button id="Button_Refresh" type="button" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh</button>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+</div>
+</div>
+
+
+<div class="col-md-4">
+<div class="panel panel-default">
+<div class="panel-heading">Enter New Trade</div>
+<div class="panel-body">
+
+<div class="input-group">
+<span class="input-group-addon" id="basic-addon3">Deal Size:</span>
+<input id="Input_Size" type="text" class="form-control" value="${markets.dealingRules.minDealSize.value}">
+</div>
+
+<div class="input-group top-spacer">
+<span class="input-group-addon" id="basic-addon3">Stop Loss:</span>
+<input id="Input_StopLoss" type="text" class="form-control" value="500">
+</div>
+
+<div class="input-group top-spacer">
+<span class="input-group-addon" id="basic-addon3">Stop Profit:</span>
+<input id="Input_StopProfit" type="text" class="form-control" value="0">
+</div>
+<hr/>
+<button id="Button_Sell" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> SELL&nbsp;&nbsp;<span class="badge">${markets.snapshot.bid}</span></button>&nbsp;&nbsp;
+<button id="Button_Buy" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> BUY&nbsp;&nbsp;<span class="badge">${markets.snapshot.offer}</span></button>&nbsp;&nbsp;
+</div>
+</div>
+</div>
+
+
+#if(!$positions.isEmpty())
+<div class="col-md-12">
+<h4>Positions</h4>
+<div class="panel panel-default">
+<table class="table small table-hover table-striped table-bordered">
+<tr class="active">
+<th>Date (UTC)</th>
+<th>ID</th>
+<th>Name</th>
+<th>Epic</th>
+<th>Direction</th>
+<th>Size</th>
+<th>Open</th>
+<th>Mid</th>
+<th>Profit/Loss</th>
+</tr>
+#foreach($position in $positions)
+<tr>
+<td>${position.position.createdDate}</td>
+<td><a href="/Position?dealId=${position.position.dealId}">${position.position.dealId}</a></td>
+<td>${position.market.instrumentName}</td>
+<td>${position.market.epic}</td>
+<td>
+#if($position.position.direction == "BUY")
+<span class="label label-success">${position.position.direction}</span>
+#else
+<span class="label label-danger">${position.position.direction}</span>
+#end
+</td>
+<td>${position.position.size}</td>
+<td>${position.position.level}</td>
+<td>${position.market.mid}</td>
+#if($position.isProfit())
+<td class="success">£${position.profit}</td>
+#else
+<td class="danger">-£${position.loss}</td>
+#end
+#end
+</table>
+</div>
+</div>
+#end
+
+<div class="col-md-12">
+<hr/>
+<h4>JSON <small><span id="Show_Json" class="glyphicon glyphicon-menu-down"></span><span id="Hide_Json" class="glyphicon glyphicon-menu-up" style="display: none"></span></small></h4>
+<pre id="Json_Content" style="display: none">${json}</pre>
+</div>
+
+<!-- END ROW -->
+</div>
+
+<!-- END CONTAINER -->
+</div>
+
+
+
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" ></script>
+<script>
+$("#Button_Refresh").click(function() { window.location.href = "/Instrument?epic=${epic}&refresh=true"; });
+$("#Button_Buy").click(function() {
+	var size = $("#Input_Size").val();
+	var stopLoss = $("#Input_StopLoss").val();
+	var stopProfit = $("#Input_StopProfit").val();
+	window.location.href = "/Instrument?epic=${epic}&refresh=true&action=BUY&size="+size+"&stopLoss="+stopLoss+"&stopProfit="+stopProfit;
+});
+$("#Button_Sell").click(function() {
+	var size = $("#Input_Size").val();
+	var stopLoss = $("#Input_StopLoss").val();
+	var stopProfit = $("#Input_StopProfit").val();
+	window.location.href = "/Instrument?epic=${epic}&refresh=true&action=SELL&size="+size+"&stopLoss="+stopLoss+"&stopProfit="+stopProfit;
+});
+$("#Show_Json").click(function() {
+	$("#Show_Json").hide();
+	$("#Json_Content").show();
+	$("#Hide_Json").show();
+});
+$("#Hide_Json").click(function() {
+	$("#Json_Content").hide();
+	$("#Hide_Json").hide();
+	$("#Show_Json").show();
+});
+</script>
+</body>
+</html>

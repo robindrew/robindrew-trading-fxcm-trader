@@ -1,0 +1,126 @@
+<html>
+
+
+<head>
+<title>${title}</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+<style>
+body { padding-top: 10px; }
+.top-spacer {padding-top: 10px; }]
+</style>
+
+
+</head>
+
+
+<body>
+
+<!-- START CONTAINER -->
+<div class="container">
+
+
+<!-- NAV BAR -->
+<nav class="navbar navbar-default">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="/">${serviceName} #${serviceInstance}</a>
+</div>
+<ul class="nav navbar-nav">
+<li class="active"><a href="/Accounts"><span class="glyphicon glyphicon-piggy-bank"></span> Accounts</a></li>
+<li><a href="/Positions"><span class="glyphicon glyphicon-list-alt"></span> Positions</a></li>
+<li><a href="/Instruments"><span class="glyphicon glyphicon-globe"></span> Instruments</a></li>
+<li><a href="/History"><span class="glyphicon glyphicon-signal"></span> History</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="#">${environment}</a></li>
+</ul>
+</div><!-- /.container-fluid -->
+</nav>
+<!-- NAV BAR -->
+
+
+<!-- START ROW -->
+<div class="row">
+
+<!-- TITLE -->
+<div class="col-md-12">
+<h3><span class="glyphicon glyphicon-piggy-bank"></span> Accounts</h3>
+</div>
+
+<div class="col-md-12">
+<div class="panel panel-default">
+<table class="table small table-hover table-striped table-bordered">
+<tr class="active">
+<th>ID</th>
+<th>Status</th>
+<th>Name</th>
+<th>Type</th>
+<th>Balance</th>
+<th>Available</th>
+<th>Profit/Loss</th>
+</tr>
+#foreach($account in $accounts)
+<tr>
+<td>${account.accountId}</td>
+<td>
+#if($account.status == "ENABLED")
+<span class="label label-success">${account.status}</span>
+#else
+<span class="label label-danger">${account.status}</span>
+#end
+</td>
+<td><a href="/Positions">${account.accountName}</a></td>
+<td>${account.accountType}</td>
+
+#if($account.balance)
+<td>£${account.balance.balance}</td>
+<td>£${account.balance.available}</td>
+#if($account.balance.profitLoss >= 0)
+<td class="success">£${account.balance.profit}</td>
+#else
+<td class="danger">-£${account.balance.loss}</td>
+#end
+#else
+<td colspan="3"><i>Not Available</i></td>
+#end
+
+#end
+</table>
+</div>
+</div>
+
+<div class="col-md-12">
+<hr/>
+<h4>JSON <small><span id="Show_Json" class="glyphicon glyphicon-menu-down"></span><span id="Hide_Json" class="glyphicon glyphicon-menu-up" style="display: none"></span></small></h4>
+<pre id="Json_Content" style="display: none">${json}</pre>
+</div>
+
+<!-- END ROW -->
+</div>
+
+<!-- END CONTAINER -->
+</div>
+
+
+
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" ></script>
+<script>
+$("#Show_Json").click(function() {
+	$("#Show_Json").hide();
+	$("#Json_Content").show();
+	$("#Hide_Json").show();
+});
+$("#Hide_Json").click(function() {
+	$("#Json_Content").hide();
+	$("#Hide_Json").hide();
+	$("#Show_Json").show();
+});
+</script>
+</body>
+</html>

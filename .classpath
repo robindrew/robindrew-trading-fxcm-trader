@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar" sourcepath="MAVEN_REPO/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/com/google/guava/guava/23.0/guava-23.0.jar" sourcepath="MAVEN_REPO/com/google/guava/guava/23.0/guava-23.0-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/junit/junit/4.12/junit-4.12.jar" sourcepath="MAVEN_REPO/junit/junit/4.12/junit-4.12-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7.jar" sourcepath="MAVEN_REPO/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2.jar" sourcepath="MAVEN_REPO/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/apache/httpcomponents/httpcore/4.4.5/httpcore-4.4.5.jar" sourcepath="MAVEN_REPO/org/apache/httpcomponents/httpcore/4.4.5/httpcore-4.4.5-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar" sourcepath="MAVEN_REPO/com/google/code/gson/gson/2.8.2/gson-2.8.2-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/eclipse/jetty/jetty-servlet/9.4.8.v20171121/jetty-servlet-9.4.8.v20171121.jar" sourcepath="MAVEN_REPO/org/eclipse/jetty/jetty-servlet/9.4.8.v20171121/jetty-servlet-9.4.8.v20171121-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/eclipse/jetty/jetty-security/9.4.8.v20171121/jetty-security-9.4.8.v20171121.jar" sourcepath="MAVEN_REPO/org/eclipse/jetty/jetty-security/9.4.8.v20171121/jetty-security-9.4.8.v20171121-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/eclipse/jetty/jetty-server/9.4.8.v20171121/jetty-server-9.4.8.v20171121.jar" sourcepath="MAVEN_REPO/org/eclipse/jetty/jetty-server/9.4.8.v20171121/jetty-server-9.4.8.v20171121-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/eclipse/jetty/jetty-io/9.4.8.v20171121/jetty-io-9.4.8.v20171121.jar" sourcepath="MAVEN_REPO/org/eclipse/jetty/jetty-io/9.4.8.v20171121/jetty-io-9.4.8.v20171121-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/eclipse/jetty/jetty-http/9.4.8.v20171121/jetty-http-9.4.8.v20171121.jar" sourcepath="MAVEN_REPO/org/eclipse/jetty/jetty-http/9.4.8.v20171121/jetty-http-9.4.8.v20171121-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/eclipse/jetty/jetty-util/9.4.8.v20171121/jetty-util-9.4.8.v20171121.jar" sourcepath="MAVEN_REPO/org/eclipse/jetty/jetty-util/9.4.8.v20171121/jetty-util-9.4.8.v20171121-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar" sourcepath="MAVEN_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/org/slf4j/log4j-over-slf4j/log4j-over-slf4j-1.7.25.jar" sourcepath="MAVEN_REPO/org/slf4j/log4j-over-slf4j/log4j-over-slf4j-1.7.25-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/uk/org/lidalia/sysout-over-slf4j/1.0.2/sysout-over-slf4j-1.0.2.jar" sourcepath="MAVEN_REPO/uk/org/lidalia/sysout-over-slf4j/1.0.2/sysout-over-slf4j-1.0.2-sources.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar" sourcepath="MAVEN_REPO/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0-sources.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/robindrew-common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/robindrew-trading"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/robindrew-trading-fxcm"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

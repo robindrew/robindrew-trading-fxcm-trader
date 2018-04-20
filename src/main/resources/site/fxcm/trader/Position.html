@@ -1,0 +1,151 @@
+<html>
+
+
+<head>
+<title>${title}</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+<style>
+body { padding-top: 10px; }
+.top-spacer {padding-top: 10px; }]
+</style>
+
+
+</head>
+
+
+<body>
+
+<!-- START CONTAINER -->
+<div class="container">
+
+
+<!-- NAV BAR -->
+<nav class="navbar navbar-default">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="/">${serviceName} #${serviceInstance}</a>
+</div>
+<ul class="nav navbar-nav">
+<li><a href="/Accounts"><span class="glyphicon glyphicon-piggy-bank"></span> Accounts</a></li>
+<li class="active"><a href="/Positions"><span class="glyphicon glyphicon-list-alt"></span> Positions</a></li>
+<li><a href="/Instruments"><span class="glyphicon glyphicon-globe"></span> Instruments</a></li>
+<li><a href="/History"><span class="glyphicon glyphicon-signal"></span> History</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="#">${environment}</a></li>
+</ul>
+</div><!-- /.container-fluid -->
+</nav>
+<!-- NAV BAR -->
+
+
+<!-- START ROW -->
+<div class="row">
+
+<div class="col-md-12">
+<ol class="breadcrumb">
+<li><a href="/Positions">Positions</a></li>
+<li class="active">${dealId}</li>
+</ol>
+</div>
+
+<div class="col-md-12">
+<div class="panel panel-primary">
+<div class="panel-heading">
+<h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> Position</h4>
+${position.market.instrumentName} - ${position.position.direction} ${position.position.size} @ ${position.position.level}
+</div>
+
+<table class="table small table-hover table-striped table-bordered">
+<tr><th>Trade Date</th><td>${position.position.createdDate}</td></tr>
+<tr><th>Deal ID</th><td>${position.position.dealId}</td></tr>
+<tr><th>Deal Reference</th><td>${position.position.dealReference}</td></tr>
+<tr><th>Type</th><td>${position.market.instrumentType}</td></tr>
+<tr><th>Instrument</th><td>${position.market.instrumentName}</td></tr>
+<tr><th>Epic</th><td><a href="/Instrument?epic=${position.market.epic}">${position.market.epic}</a></td></tr>
+<tr><th>Direction</th><td>
+#if($position.position.direction == "BUY")
+<span class="label label-success">${position.position.direction}</span>
+#else
+<span class="label label-danger">${position.position.direction}</span>
+#end
+</td></tr>
+<tr><th>Size</th><td>${position.position.size}</td></tr>
+<tr><th>Open</th><td>${position.position.level}</td></tr>
+<tr><th>Stop Loss</th><td>${position.position.stopLevel}</td></tr>
+#if ($position.position.limitLevel)
+<tr><th>Profit Limit</th><td>${position.position.limitLevel}</td></tr>
+#end
+<tr><th>Bid</th><td>${position.market.bid}</td></tr>
+<tr><th>Offer</th><td>${position.market.offer}</td></tr>
+<tr><th>Spread</th><td>${position.market.spread}</td></tr>
+
+<tr><th>Status</th>
+<td>
+#if($position.market.marketStatus == "CLOSED")
+<span class="label label-danger">${position.market.marketStatus}</span>
+#end
+#if($position.market.marketStatus == "SUSPENDED")
+<span class="label label-danger">${position.market.marketStatus}</span>
+#end
+#if($position.market.marketStatus == "OFFLINE")
+<span class="label label-danger">${position.market.marketStatus}</span>
+#end
+#if($position.market.marketStatus == "EDITS_ONLY")
+<span class="label label-warning">${position.market.marketStatus}</span>
+#end
+#if($position.market.marketStatus == "ON_AUCTION")
+<span class="label label-warning">${position.market.marketStatus}</span>
+#end
+#if($position.market.marketStatus == "ON_AUCTION_NO_EDITS")
+<span class="label label-warning">${position.market.marketStatus}</span>
+#end
+#if($position.market.marketStatus == "TRADEABLE")
+<span class="label label-success">${position.market.marketStatus}</span>
+#end
+</td>
+
+#if($position.isProfit())
+<tr class="success"><th>Profit</th><td>£${position.profit}</td></tr>
+#else
+<tr class="danger"><th>Loss</th><td>-£${position.loss}</td></tr>
+#end
+
+<tr><th>Actions</th>
+<td>
+#if(!$closed)
+<button id="Button_Close" type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close Position</button>&nbsp;&nbsp;
+#end
+</td>
+</tr>
+</table>
+</div>
+</div>
+
+
+<div class="col-md-12">
+<hr/>
+<h4>JSON</h4>
+<pre>${json}</pre>
+</div>
+
+<!-- END ROW -->
+</div>
+
+<!-- END CONTAINER -->
+</div>
+
+
+
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" ></script>
+<script>
+$("#Button_Close").click(function() { window.location.href = "/Position?dealId=${dealId}&close=true"; });
+</script>
+</body>
+</html>

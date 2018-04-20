@@ -1,0 +1,230 @@
+<html>
+
+
+<head>
+<title>${title}</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+
+<style>
+body { padding-top: 10px; }
+.top-spacer {padding-top: 10px; }]
+</style>
+
+
+</head>
+
+
+<body>
+
+<!-- START CONTAINER -->
+<div class="container">
+
+
+<!-- NAV BAR -->
+<nav class="navbar navbar-default">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="/">${serviceName} #${serviceInstance}</a>
+</div>
+<ul class="nav navbar-nav">
+<li><a href="/Accounts"><span class="glyphicon glyphicon-piggy-bank"></span> Accounts</a></li>
+<li><a href="/Positions"><span class="glyphicon glyphicon-list-alt"></span> Positions</a></li>
+<li class="active"><a href="/Instruments"><span class="glyphicon glyphicon-globe"></span> Instruments</a></li>
+<li><a href="/History"><span class="glyphicon glyphicon-signal"></span> History</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="#">${environment}</a></li>
+</ul>
+</div><!-- /.container-fluid -->
+</nav>
+<!-- NAV BAR -->
+
+
+<!-- START ROW -->
+<div class="row">
+
+<div class="col-lg-7">
+<ol class="breadcrumb">
+#if($search)
+<li><a href="/Instruments">Instruments</a></li>
+<li class="active">${search}</li>
+#end
+#foreach($ancestor in $ancestors)
+<li><a href="/Instruments?id=${ancestor.id}&name=${ancestor.name}&parentId=${ancestor.parentId}">${ancestor.name}</a></li>
+#end
+</ol>
+</div>
+
+<div class="col-lg-5">
+<div class="input-group">
+<input id="Input_Search" type="text" class="form-control" placeholder="Search for instruments...">
+<span class="input-group-btn">
+<button id="Button_Search" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span>&nbsp;</button>
+</span>
+</div>
+</div>
+
+#if($navigation.nodes)
+<div class="col-md-12">
+<h3><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> ${name}</h3>
+</div>
+
+#foreach($nodePage in $nodes)
+<div class="col-md-3">
+<table class="table small table-hover table-striped table-bordered">
+<tr>
+<th>ID</th><th>Market</th>
+</tr>
+#foreach($node in $nodePage)
+<tr>
+<td>${node.id}</td>
+<td><a href="/Instruments?id=${node.id}&name=${node.name}&parentId=${id}">${node.name}</a></td>
+</tr>
+#end
+</table>
+</div>
+#end
+#end
+
+
+#if($navigation.markets)
+<div class="col-md-12">
+<h3><span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span> ${name} <small>Instruments</small></h3>
+</div>
+<div class="col-md-12">
+<table id="Instrument_Table" class="table small table-hover table-striped table-bordered">
+<thead>
+<tr>
+<th>Type</th>
+<th>Instrument</th>
+<th>ID</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+#foreach($market in $navigation.markets.marketList)
+<tr>
+<td>${market.instrumentType}</td>
+<td><a href="/Instrument?epic=${market.epic}">${market.instrumentName}</a></td>
+<td><a href="/Instrument?epic=${market.epic}">${market.epic}</a></td>
+<td>
+#if($market.marketStatus == "CLOSED")
+<span class="label label-danger">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "SUSPENDED")
+<span class="label label-danger">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "OFFLINE")
+<span class="label label-danger">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "EDITS_ONLY")
+<span class="label label-warning">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "ON_AUCTION")
+<span class="label label-warning">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "ON_AUCTION_NO_EDITS")
+<span class="label label-warning">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "TRADEABLE")
+<span class="label label-success">${market.marketStatus}</span>
+#end
+</td>
+</tr>
+#end
+</tbody>
+</table>
+</div>
+#end
+
+
+#if($markets)
+<div class="col-md-12">
+<h3><span class="glyphicon glyphicon-search" aria-hidden="true"></span> ${search} <small>Instruments</small></h3>
+</div>
+<div class="col-md-12">
+<table id="Search_Table" class="table small table-hover table-striped table-bordered">
+<thead>
+<tr>
+<th>Type</th>
+<th>Instrument</th>
+<th>ID</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+#foreach($market in $markets.marketList)
+<tr>
+<td>${market.instrumentType}</td>
+<td><a href="/Instrument?epic=${market.epic}">${market.instrumentName}</a></td>
+<td><a href="/Instrument?epic=${market.epic}">${market.epic}</a></td>
+<td>
+#if($market.marketStatus == "CLOSED")
+<span class="label label-danger">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "SUSPENDED")
+<span class="label label-danger">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "OFFLINE")
+<span class="label label-danger">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "EDITS_ONLY")
+<span class="label label-warning">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "ON_AUCTION")
+<span class="label label-warning">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "ON_AUCTION_NO_EDITS")
+<span class="label label-warning">${market.marketStatus}</span>
+#end
+#if($market.marketStatus == "TRADEABLE")
+<span class="label label-success">${market.marketStatus}</span>
+#end
+</td>
+</tr>
+#end
+</tbody>
+</table>
+</div>
+#end
+
+<div class="col-md-12">
+<button id="Button_Refresh" type="button" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>&nbsp;&nbsp;
+</div>
+
+
+<!-- END ROW -->
+</div>
+
+<!-- END CONTAINER -->
+</div>
+
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" ></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script>
+$("#Button_Refresh").click(function() {
+	window.location.href = "/Instruments?id=${id}&name=${name}&refresh=true";
+});
+$("#Button_Search").click(function() {
+	var text = $("#Input_Search").val();
+	window.location.href = "/Instruments?search=" + text;
+});
+$("#Input_Search").keypress(function(e) {
+    if (e.which == 13) {
+    	var text = $("#Input_Search").val();
+    	window.location.href = "/Instruments?search=" + text;
+    }
+});
+$(document).ready(function() {
+    $('#Search_Table').DataTable();
+    $('#Instrument_Table').DataTable();
+});
+</script>
+</body>
+</html>

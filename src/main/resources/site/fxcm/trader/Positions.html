@@ -1,0 +1,167 @@
+<html>
+
+
+<head>
+<title>${title}</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+
+<style>
+body { padding-top: 10px; }
+.top-spacer {padding-top: 10px; }]
+</style>
+
+
+</head>
+
+
+<body>
+
+<!-- START CONTAINER -->
+<div class="container">
+
+
+<!-- NAV BAR -->
+<nav class="navbar navbar-default">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="/">${serviceName} #${serviceInstance}</a>
+</div>
+<ul class="nav navbar-nav">
+<li><a href="/Accounts"><span class="glyphicon glyphicon-piggy-bank"></span> Accounts</a></li>
+<li class="active"><a href="/Positions"><span class="glyphicon glyphicon-list-alt"></span> Positions</a></li>
+<li><a href="/Instruments"><span class="glyphicon glyphicon-globe"></span> Instruments</a></li>
+<li><a href="/History"><span class="glyphicon glyphicon-signal"></span> History</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="#">${environment}</a></li>
+</ul>
+</div><!-- /.container-fluid -->
+</nav>
+<!-- NAV BAR -->
+
+
+<!-- START ROW -->
+<div class="row">
+
+<!-- TITLE -->
+<div class="col-md-12">
+<h3><span class="glyphicon glyphicon-list-alt"></span> Positions <small>open trading positions</small></h3>
+</div>
+
+<div class="col-md-12">
+<table class="table small table-hover table-striped table-bordered">
+<tr class="active">
+<th>Date (UTC)</th>
+<th>ID</th>
+<th>Name</th>
+<th>Epic</th>
+<th>Direction</th>
+<th>Size</th>
+<th>Open</th>
+<th>Mid</th>
+<th>Profit/Loss</th>
+</tr>
+#foreach($position in $positions)
+<tr>
+<td>${position.position.createdDateFormatted}</td>
+<td><a href="/Position?dealId=${position.position.dealId}">${position.position.dealId}</a></td>
+<td>${position.market.instrumentName}</td>
+<td><a href="/Instrument?epic=${position.market.epic}">${position.market.epic}</a></td>
+<td>
+#if($position.position.direction == "BUY")
+<span class="label label-success">${position.position.direction}</span>
+#else
+<span class="label label-danger">${position.position.direction}</span>
+#end
+</td>
+<td>${position.position.size}</td>
+<td>${position.position.level}</td>
+<td>${position.market.mid}</td>
+#if($position.isProfit())
+<td class="success">£${position.profit}</td>
+#else
+<td class="danger">-£${position.loss}</td>
+#end
+#end
+</table>
+</div>
+
+
+<!-- TITLE -->
+<div class="col-md-12">
+<h3>Activity <small>trading activity from the past 3 months</small></h3>
+</div>
+
+<div class="col-md-12">
+<table id="Activity_Table" class="table small table-hover table-striped table-bordered">
+<thead>
+<tr class="active">
+<th>Date (UTC)</th>
+<th>ID</th>
+<th>Epic</th>
+<th>Direction</th>
+<th>Size</th>
+<th>Open</th>
+<th>Type</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+#foreach($activity in $activities)
+<tr>
+<td>${activity.activityDateFormatted}</td>
+<td>${activity.dealId}</td>
+<td><a href="/Instrument?epic=${activity.epic}">${activity.epic}</a></td>
+<td>
+#if($activity.details.direction == "BUY")
+<span class="label label-success">${activity.details.direction}</span>
+#else
+<span class="label label-danger">${activity.details.direction}</span>
+#end
+</td>
+</td>
+<td>${activity.details.size}</td>
+<td>${activity.details.level}</td>
+<td><span class="label label-info">${activity.type}</span></td>
+<td>
+#if($activity.status == "ACCEPTED")
+<span class="label label-success">${activity.status}</span>
+#end
+#if($activity.status == "REJECTED")
+<span class="label label-danger">${activity.status}</span>
+#end
+#if($activity.status == "UNKNOWN")
+<span class="label label-warning">${activity.status}</span>
+#end
+</td>
+</tr>
+#end
+</tbody>
+</table>
+</div>
+
+<!-- END ROW -->
+</div>
+
+<!-- END CONTAINER -->
+</div>
+
+
+
+<!-- JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#Activity_Table').DataTable({
+    	 "order": [[ 0, "desc" ]]
+	});
+});
+</script>
+</body>
+</html>
