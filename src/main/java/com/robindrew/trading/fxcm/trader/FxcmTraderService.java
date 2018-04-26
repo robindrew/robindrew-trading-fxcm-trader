@@ -23,7 +23,7 @@ public class FxcmTraderService extends AbstractService {
 	private final PropertiesComponent properties = new PropertiesComponent();
 	private final LoggingComponent logging = new LoggingComponent();
 	private final StatsComponent stats = new StatsComponent();
-	private final FxcmComponent igindex = new FxcmComponent();
+	private final FxcmComponent fxcm = new FxcmComponent();
 
 	public FxcmTraderService(String[] args) {
 		super(args);
@@ -36,7 +36,7 @@ public class FxcmTraderService extends AbstractService {
 		start(heartbeat);
 		start(stats);
 		start(jetty);
-		start(igindex);
+		start(fxcm);
 	}
 
 	@Override
