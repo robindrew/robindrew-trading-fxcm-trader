@@ -15,8 +15,10 @@ import com.robindrew.common.service.component.AbstractIdleComponent;
 import com.robindrew.trading.fxcm.platform.FxcmCredentials;
 import com.robindrew.trading.fxcm.platform.FxcmEnvironment;
 import com.robindrew.trading.fxcm.platform.FxcmSession;
-import com.robindrew.trading.fxcm.trader.fxcm.session.SessionManager;
-import com.robindrew.trading.log.TransactionLog;
+import com.robindrew.trading.fxcm.platform.api.java.FxcmJavaService;
+import com.robindrew.trading.fxcm.platform.api.java.IFxcmJavaService;
+import com.robindrew.trading.fxcm.platform.api.java.gateway.FxcmGateway;
+import com.robindrew.trading.log.FileBackedTransactionLog;
 
 public class FxcmComponent extends AbstractIdleComponent {
 
@@ -43,13 +45,15 @@ public class FxcmComponent extends AbstractIdleComponent {
 		log.info("User: {}", credentials.getUsername());
 		FxcmSession session = new FxcmSession(credentials, environment);
 
-		log.info("Creating Session Manager");
-		SessionManager sessionManager = new SessionManager(session);
-		registry.register(sessionManager);
-
 		log.info("Creating Transaction Log");
-		TransactionLog transactionLog = new TransactionLog(transactionLogDir);
-		transactionLog.start();
+		FileBackedTransactionLog transactionLog = new FileBackedTransactionLog(transactionLogDir);
+		transactionLog.start("FxcmTransactionLog");
+
+		log.info("Creating Session Manager");
+		FxcmGateway gateway = new FxcmGateway(transactionLog);
+		IFxcmJavaService service = new FxcmJavaService(session, gateway, transactionLog);
+		IFxcmSessionManager sessionManager = new FxcmSessionManager(service);
+		registry.register(sessionManager);
 
 	}
 

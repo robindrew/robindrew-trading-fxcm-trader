@@ -14,6 +14,7 @@ import com.robindrew.common.service.component.jetty.handler.page.IndexPage;
 import com.robindrew.common.service.component.jetty.handler.page.SystemPage;
 import com.robindrew.common.template.ITemplateLocator;
 import com.robindrew.common.template.velocity.VelocityTemplateLocatorSupplier;
+import com.robindrew.trading.fxcm.trader.jetty.page.AccountsPage;
 
 public class JettyComponent extends JettyVelocityComponent {
 
@@ -34,6 +35,7 @@ public class JettyComponent extends JettyVelocityComponent {
 		handler.uri("/BeanOperation", new BeanOperationPage(getContext(), "site/common/BeanOperation.html"));
 
 		// Register extra pages
+		handler.uri("/Accounts", new AccountsPage(getContext(), "site/fxcm/trader/Accounts.html"));
 	}
 
 	private IHttpExecutor newIndexPage(IVelocityHttpContext context, String templateName) {
