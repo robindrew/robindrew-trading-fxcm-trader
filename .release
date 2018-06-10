@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<releaseConfig>
+
+	<groupId>com.robindrew</groupId>
+	<artifactId>robindrew-trading-fxcm-trader</artifactId>
+	<version>3.0</version>
+
+</releaseConfig>
