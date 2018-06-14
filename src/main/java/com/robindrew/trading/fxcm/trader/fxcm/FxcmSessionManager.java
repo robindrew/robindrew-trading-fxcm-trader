@@ -1,18 +1,35 @@
 package com.robindrew.trading.fxcm.trader.fxcm;
 
-import com.robindrew.trading.fxcm.platform.api.java.IFxcmJavaService;
+import static com.robindrew.common.util.Check.notNull;
 
-public class FxcmSessionManager implements IFxcmSessionManager {
+import com.robindrew.trading.fxcm.platform.IFxcmTradingPlatform;
 
-	private final IFxcmJavaService service;
+public class FxcmSessionManager implements IFxcmSessionManager, FxcmSessionManagerMBean {
 
-	public FxcmSessionManager(IFxcmJavaService service) {
-		this.service = service;
+	private final IFxcmTradingPlatform platform;
+
+	public FxcmSessionManager(IFxcmTradingPlatform platform) {
+		this.platform = notNull("platform", platform);
 	}
 
 	@Override
-	public IFxcmJavaService getService() {
-		return service;
+	public IFxcmTradingPlatform getPlatform() {
+		return platform;
+	}
+
+	@Override
+	public String getUser() {
+		return platform.getSession().getCredentials().getUsername();
+	}
+
+	@Override
+	public String getStation() {
+		return platform.getSession().getEnvironment().getStation();
+	}
+
+	@Override
+	public String getServer() {
+		return platform.getSession().getEnvironment().getServer();
 	}
 
 }

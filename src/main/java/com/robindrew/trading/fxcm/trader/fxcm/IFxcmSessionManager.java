@@ -1,8 +1,8 @@
 package com.robindrew.trading.fxcm.trader.fxcm;
 
-import com.robindrew.trading.fxcm.platform.api.java.IFxcmJavaService;
+import com.robindrew.trading.fxcm.platform.IFxcmTradingPlatform;
 
 public interface IFxcmSessionManager {
 
-	IFxcmJavaService getService();
+	IFxcmTradingPlatform getPlatform();
 }

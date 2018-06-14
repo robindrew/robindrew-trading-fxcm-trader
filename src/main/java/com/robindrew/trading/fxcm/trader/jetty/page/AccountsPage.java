@@ -23,16 +23,5 @@ public class AccountsPage extends AbstractServicePage {
 		IFxcmSession session = getDependency(IFxcmSession.class);
 		dataMap.put("user", session.getCredentials().getUsername());
 		dataMap.put("environment", session.getEnvironment());
-
-		// IConnectionManager connection = getDependency(IConnectionManager.class);
-		// if (connection.isLoggedIn()) {
-		// IFxcmRestService rest = getDependency(IFxcmRestService.class);
-		// List<Account> accounts = rest.getAccountList();
-		// dataMap.put("accounts", accounts);
-		// dataMap.put("json", Strings.json(accounts, true));
-		// dataMap.put("loggedIn", true);
-		// } else {
-		// dataMap.put("loggedIn", false);
-		// }
 	}
 }

@@ -1,5 +1,7 @@
 package com.robindrew.trading.fxcm.trader.fxcm;
 
+import static com.robindrew.common.dependency.DependencyFactory.setDependency;
+
 import java.io.File;
 
 import org.slf4j.Logger;
@@ -15,8 +17,10 @@ import com.robindrew.common.service.component.AbstractIdleComponent;
 import com.robindrew.trading.fxcm.platform.FxcmCredentials;
 import com.robindrew.trading.fxcm.platform.FxcmEnvironment;
 import com.robindrew.trading.fxcm.platform.FxcmSession;
+import com.robindrew.trading.fxcm.platform.FxcmTradingPlatform;
+import com.robindrew.trading.fxcm.platform.IFxcmSession;
+import com.robindrew.trading.fxcm.platform.IFxcmTradingPlatform;
 import com.robindrew.trading.fxcm.platform.api.java.FxcmJavaService;
-import com.robindrew.trading.fxcm.platform.api.java.IFxcmJavaService;
 import com.robindrew.trading.fxcm.platform.api.java.gateway.FxcmGateway;
 import com.robindrew.trading.log.FileBackedTransactionLog;
 
@@ -43,17 +47,23 @@ public class FxcmComponent extends AbstractIdleComponent {
 		log.info("Creating Session");
 		log.info("Environment: {}", environment);
 		log.info("User: {}", credentials.getUsername());
-		FxcmSession session = new FxcmSession(credentials, environment);
+		IFxcmSession session = new FxcmSession(credentials, environment);
+		setDependency(IFxcmSession.class, session);
 
 		log.info("Creating Transaction Log");
 		FileBackedTransactionLog transactionLog = new FileBackedTransactionLog(transactionLogDir);
 		transactionLog.start("FxcmTransactionLog");
 
-		log.info("Creating Session Manager");
+		log.info("Creating Trading Platform");
 		FxcmGateway gateway = new FxcmGateway(transactionLog);
-		IFxcmJavaService service = new FxcmJavaService(session, gateway, transactionLog);
-		IFxcmSessionManager sessionManager = new FxcmSessionManager(service);
+		FxcmJavaService service = new FxcmJavaService(session, gateway, transactionLog);
+		FxcmTradingPlatform platform = new FxcmTradingPlatform(service);
+		setDependency(IFxcmTradingPlatform.class, platform);
+
+		log.info("Creating Session Manager");
+		IFxcmSessionManager sessionManager = new FxcmSessionManager(platform);
 		registry.register(sessionManager);
+		setDependency(IFxcmSessionManager.class, sessionManager);
 
 	}
 
