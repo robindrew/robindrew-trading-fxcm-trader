@@ -11,7 +11,7 @@ import com.robindrew.trading.fxcm.trader.jetty.JettyComponent;
 public class FxcmTraderService extends AbstractService {
 
 	/**
-	 * Entry point for the IG Index Trader Service.
+	 * Entry point for the FXCM Trader Service.
 	 */
 	public static void main(String[] args) {
 		FxcmTraderService service = new FxcmTraderService(args);
