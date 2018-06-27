@@ -65,6 +65,8 @@ public class FxcmComponent extends AbstractIdleComponent {
 		registry.register(sessionManager);
 		setDependency(IFxcmSessionManager.class, sessionManager);
 
+		log.info("Logging In...");
+		service.login();
 	}
 
 	@Override
