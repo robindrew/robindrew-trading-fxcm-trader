@@ -6,7 +6,6 @@ import com.robindrew.common.http.servlet.executor.IHttpExecutor;
 import com.robindrew.common.http.servlet.executor.IVelocityHttpContext;
 import com.robindrew.common.service.component.jetty.JettyVelocityComponent;
 import com.robindrew.common.service.component.jetty.handler.MatcherHttpHandler;
-import com.robindrew.common.service.component.jetty.handler.page.BeanAttributePage;
 import com.robindrew.common.service.component.jetty.handler.page.BeanConsolePage;
 import com.robindrew.common.service.component.jetty.handler.page.BeanOperationPage;
 import com.robindrew.common.service.component.jetty.handler.page.BeanViewPage;
@@ -31,7 +30,7 @@ public class JettyComponent extends JettyVelocityComponent {
 		handler.uri("/System", new SystemPage(getContext(), "site/common/System.html"));
 		handler.uri("/BeanConsole", new BeanConsolePage(getContext(), "site/common/BeanConsole.html"));
 		handler.uri("/BeanView", new BeanViewPage(getContext(), "site/common/BeanView.html"));
-		handler.uri("/BeanAttribute", new BeanAttributePage(getContext(), "site/common/BeanAttribute.html"));
+		//handler.uri("/BeanAttribute", new BeanAttributePage(getContext(), "site/common/BeanAttribute.html"));
 		handler.uri("/BeanOperation", new BeanOperationPage(getContext(), "site/common/BeanOperation.html"));
 
 		// Register extra pages
